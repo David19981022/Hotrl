@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <script src="../js/jquery-1.12.3.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <style>
+
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/mangae/index">汇豪国际酒店</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+
+            <ul class="nav navbar-nav">
+                <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">入住管理 <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/mangae/shop">大堂入住</a></li>
+                        <li><a href="/mangae/clude">订单入住</a></li>
+                    </ul>
+                </li>
+                <li><a href="/mangae/outRoom">退房管理</a></li>
+                <li><a href="/mangae/about">入住查询</a></li>
+                <li class="active"><a href="/mangae/room">房间管理</a></li>
+                <li><a href="/mangae/roomClass">房类管理</a></li>
+                <li><a href="/mangae/tubiao">房间信息图表</a></li>
+
+                <li data-toggle="modal" data-target="#mima"><a href="#">修改密码</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="div" style="margin: 60px auto;width: 70%">
+    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#chuangjian">
+        增加
+    </button>
+    <div class="modal fade" id="chuangjian" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div style="width: 70%;">
+                        <form id="zengjia">
+                            <p>
+                                <span>房间号：</span><br>
+                                <input type="text" name="fangjianhao">
+                            </p>
+                            <p>
+                                <span>房间类型：</span>&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                <select name="fangjianleixing" id="select0"></select>
+                            </p>
+                            <p>
+                                <span>房间位置：</span>&nbsp;&nbsp;&nbsp;<br>
+                                <input type="text" name="weizhi">
+                            </p>
+                            <p>
+                                <span>房间描述：</span>&nbsp;&nbsp;&nbsp;<br>
+                                <textarea name="miaoshu" id="" cols="30" rows="3"></textarea>
+                            </p>
+                            <p>
+                                <span>房间状态：</span>&nbsp;&nbsp;&nbsp;<br>
+                                <select name="zhaungtai" id="select">
+                                    <option value="0">未入住</option>
+                                    <option value="1">已入住</option>
+                                    <option value="2">维修中</option>
+                                </select>
+                            </p>
+
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="Addbtn">提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button type="button" class="btn btn-primary btn-lg edit abtn" data-toggle="modal" data-target="#bianji">
+        修改
+    </button>
+    <div class="modal fade" id="bianji" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">编辑员工 </h4>
+                </div>
+                <div class="modal-body">
+                    <div style="width: 70%;">
+                        <form id="xiugai">
+                            <p>
+                                <span>房间号：</span><br>
+                                <input type="text" name="fangjianhao" readonly>
+                            </p>
+                            <p>
+                                <span>房间类型：</span>&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                <input type="text" name="fangjianleixing">
+                            </p>
+                            <p>
+                                <span>房间位置：</span>&nbsp;&nbsp;&nbsp;<br>
+                                <input type="text" name="weizhi">
+                            </p>
+                            <p>
+                                <span>房间描述：</span>&nbsp;&nbsp;&nbsp;<br>
+                                <textarea name="miaoshu" id="" cols="30" rows="3"></textarea>
+                            </p>
+                            <p>
+                                <span>房间状态：</span>&nbsp;&nbsp;&nbsp;<br>
+                                <select name="zhaungtai" id="select">
+                                    <option value="未入住">未入住</option>
+                                    <option value="已入住">已入住</option>
+
+                                </select>
+                            </p>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary update">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button type="button" class="btn btn-danger btn-lg abtn" data-toggle="modal" data-target="#shanchu">
+        删除
+    </button>
+    <div class="modal fade" id="shanchu" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">删除员工</h4>
+                </div>
+                <div class="modal-body">
+                    <h4 style="text-align: center">删除此用户？</h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="delbtn">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button type="button" class="btn btn-danger btn-lg fan" data-toggle="modal" data-target="#shanchu">
+        返回
+    </button>
+    <div>
+        <table class="table table-bordered" style="text-align: center">
+            <thead>
+            <tr>
+                <td></td>
+                <td>房间号</td>
+                <td>房间类型</td>
+                <td>房间位置</td>
+                <td>房间描述</td>
+                <td>房间状态</td>
+            </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+        </table>
+        <div id="limBox"></div>
+    </div>
+</div>
+<script src="../js/PageNav.js"></script>
+<script>
+    // 返回
+    $('.fan').click(function () {
+        window.location="/mangae/index"
+    })
+    $.get("/roomLei", function (data) {
+        $('<option value="请选择">请选择</option>').appendTo($("#select0"))
+        $.each(data.result, function (i, n) {
+            $('<option value=' + n.mingcheng + '>' + n.mingcheng + '</option>').appendTo($("#select0"))
+        })
+    })
+    $("#select0").change(function () {
+        var val=$(this).val();
+        $.get("/roomshu/" + val, function (data) {
+            var nom=data.s[0].shuliang
+            $.get("/lengthRoom/"+val,function (data) {
+                console.log(data.s.length)
+                if (data.s.length>=nom){
+                    alert("此类房间的数量已上限，不能添加")
+                }
+            })
+        })
+    })
+    // <!--增加-->
+    $("#Addbtn").click(function () {
+        var str =$("#zengjia").serialize();
+        $.post("/addroom",str,function (data) {
+            if (data.s == 1) {
+                alert('成功')
+                window.location='/mangae/room'
+                $('input[type=text]').val(' ')
+            }
+            if (data.s == -1) {
+                alert("服务器错误")
+            }
+            if (data.s == -2) {
+                alert("用户名已存在")
+                $('input[type=text]').val(' ')
+            }
+        })
+    })
+    // //获取数据
+    $.get("/readroom?page=\"+pagenum",function (data) {
+        new PageNav({
+            boxid:"limBox",
+            page:1,
+            pageAmount:data.pageAmount,
+            change:function (pagenum) {
+                gopage(pagenum)
+            }
+        })
+        gopage(1)
+
+    })
+    function gopage(pagenum) {
+        $('#tbody').html(' ');
+        $.get("/readroom?page="+pagenum,function (data) {
+            var num=''
+            $.each(data.result,function (i,n) {
+                if (n.zhaungtai==0){
+                    num="未入住"
+                }
+                if(n.zhaungtai==1){
+                    num="已入住"
+                }
+                if(n.zhaungtai==2){
+                    num="维修中"
+                }
+                $tr = $("<tr></tr>");
+                $("<td></td>").html('<input type="radio" data-id="' + n._id + '" name="radio" class="ipt">').appendTo($tr);
+                $("<td></td>").html(n.fangjianhao).appendTo($tr);
+                $("<td></td>").html(n.fangjianleixing).appendTo($tr);
+                $("<td></td>").html(n.weizhi).appendTo($tr);
+                $("<td></td>").html(n.miaoshu).appendTo($tr);
+                $("<td></td>").html(num).appendTo($tr);
+                $tr.appendTo($("#tbody"));
+            })
+        })
+    }
+    // // 按钮禁用
+    $(".abtn").attr("disabled", "disabled");
+    $('#tbody').delegate(".ipt", "click", function () {
+        if ($(this).is(":checked")) {
+            $(".abtn").removeAttr("disabled");
+        } else {
+            $(".abtn").attr("disabled", "disabled");
+        }
+    });
+    // // 删除
+    $("#delbtn").click(function () {
+        var id = $("input[name=radio]:checked").attr("data-id");
+        $.ajax({
+            url: "/delRoom/" + id,
+            type: "get",
+            success: function (data) {
+                if (data.s == 1) {
+                    alert("删除成功");
+                    window.location="/mangae/room"
+                } else {
+                    alert("服务器错误！");
+                }
+            }
+        });
+    })
+    // // 修改
+    $(".edit").click(function () {
+        var id = $("input[name=radio]:checked").attr("data-id");
+        $.ajax({
+            "url":"/updateroom/"+id,
+            "type":"get",
+            success:function (data) {
+                console.log(data)
+                if (data.s==-1){
+                    alert("服务器错误")
+                }else {
+                    $("#xiugai input[name=fangjianhao]").val(data.s.fangjianhao);
+                    $("#xiugai input[name=weizhi]").val(data.s.weizhi);
+                    $("#xiugai input[name=fangjianleixing]").val(data.s.fangjianleixing);
+                    $("#xiugai textarea[name=miaoshu]").val(data.s.miaoshu);
+                }
+            }
+        })
+    })
+    // // 修改  提交
+    $(".update").click(function () {
+        var str =$("#xiugai").serialize();
+        $.post("/uproom",str,function (data) {
+            if (data.s==1){
+                alert("修改成功");
+                window.location='/mangae/room'
+            }
+            if (data.s==-1){
+                alert("服务器错误")
+            }
+        })
+    })
+</script>
+</body>
+</html>

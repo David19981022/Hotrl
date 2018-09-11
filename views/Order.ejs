@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <script src="js/jquery-1.12.3.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <style>
+        body {
+            background: url(/img/t01915446142b6f7bcd.jpg) no-repeat;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            background-size: 100%;
+        }
+
+        #dv, #fj {
+            overflow: hidden;
+            padding-left: 0;
+            padding-right: 0;
+            padding-bottom: 0;
+            width: 379px;
+        }
+
+        #dv ul,#fj ul {
+            display: flex;
+            align-content: center;
+            justify-content: space-between;
+            flex-wrap: nowrap;
+            padding: 0 .6rem;
+            -webkit-overflow-scrolling: touch;
+            overflow-y: hidden;
+            overflow-x: auto;
+            list-style: none;
+        }
+        #dv ul li,#fj ul li{
+            width: 25%;
+            flex-shrink: 0;
+            padding-right: .4rem;
+            position: relative;
+            cursor: pointer;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">汇豪国际酒店</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/">首页</a></li>
+                <li><a href="/Sub">在线预订</a></li>
+                <li class="active"><a href="/order">订单查询</a></li>
+                <li><a href="/manage">酒店管理</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="div" style="margin: 60px auto;width: 60%">
+    <h2 style="padding-top: 40px;text-align: center;color: #fff">汇豪国际酒店客户订单查询：</h2>
+    <p>
+        <input type="text" name="chaxun" class="form-control" placeholder="请输入联系人姓名">
+        <button id="buttoncx" type="button" class="btn btn-primary btn-lg">
+            查询
+        </button>
+    </p>
+    <div id="cdiv" style="display: none">
+        <table class="table table-bordered" style="text-align: center;color: #fbcb09">
+            <thead>
+            <tr>
+                <td>入住时间</td>
+                <td>离店时间</td>
+                <td>房间类型</td>
+                <td>房间号</td>
+                <td>入住人</td>
+                <td>价格/天</td>
+                <td>联系人</td>
+                <td>联系人电话</td>
+                <td>留言</td>
+                <td>操作</td>
+            </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+        </table>
+    </div>
+</div>
+<div class="modal fade" id="xiugaidingdan" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <div style="width: 70%;">
+                    <form action="" id="xiugai">
+                        <p>
+                            入住时间：
+                            <br>
+                            <input type="date" name="ruzhu" class="form-control">
+                        </p>
+                        <p>
+                            离店时间：
+                            <br>
+                            <input type="date" name="lidian" class="form-control">
+                        </p>
+                        <p>
+                            房间类型：<br>
+                            <input type="text" name="leixing" class="form-control">
+
+                        </p>
+                        <div id="dv">其他房型：<br>
+                            <ul>
+
+                            </ul>
+                        </div>
+                        <p>
+                            房间：<br>
+                            <input type="text" name="fangjian" class="form-control" readonly>
+                        </p>
+                        <div id="fj" style="display:none;i">选择房间：<br>
+                            <ul>
+
+                            </ul>
+                        </div>
+                        <p>
+                            价格/天/元：<br>
+                            <input type="text" name="jiage" class="form-control" readonly>
+                        </p>
+                        <p>
+                            入住人姓名：
+                            <br>
+                            <input type="text" name="name" class="form-control" placeholder="多个入住人请用逗号隔开">
+                        </p>
+                        <p>
+                            联系人：
+                            <br>
+                            <input type="text" name="lianxiren" class="form-control" readonly>
+                        </p>
+                        <p>
+                            联系人电话：
+                            <br>
+                            <input type="text" name="lianxiphone" class="form-control">
+                        </p>
+                        <p>
+                            <button id="buttontjok" type="button" class="btn btn-primary btn-lg">
+                                提交
+                            </button>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    LeiXing=''
+    var windowH = document.documentElement.clientHeight || document.body.clientHeight;
+    $('body').css('backgroundSize', '100%' + windowH + 'px');
+
+    $("#buttoncx").click(function () {
+        $("#tbody").html(' ')
+        $.get("/ordCha/" + $("input[name=chaxun]").val(), function (data) {
+            if (data.s == undefined) {
+                alert('无用户')
+                $("#cdiv").hide()
+            }
+            $("#cdiv").show()
+            $tr = $("<tr></tr>");
+            $("<td></td>").html(data.s.ruzhu).appendTo($tr);
+            $("<td></td>").html(data.s.lidian).appendTo($tr);
+            $("<td></td>").html(data.s.leixing).appendTo($tr);
+            $("<td></td>").html(data.s.fangjian).appendTo($tr);
+            $("<td></td>").html(data.s.name).appendTo($tr);
+            $("<td></td>").html(data.s.jiage).appendTo($tr);
+            $("<td></td>").html(data.s.lianxiren).appendTo($tr);
+            $("<td></td>").html(data.s.lianxiphone).appendTo($tr);
+            $("<td></td>").html(data.s.liuyan).appendTo($tr);
+            $("<td></td>").html('<button  type="button" class="btn btn-success del" >删除订单</button><button type="button" class="btn btn-primary xiugai" data-toggle="modal" data-target="#xiugaidingdan">修改订单</button>').appendTo($tr);
+            $tr.appendTo($("#tbody"));
+        })
+    })
+    // 删除
+    $("#tbody").delegate(".del", "click", function () {
+        var html = $(this).parent().parent().children('td').eq(6).html();
+        var lei = $(this).parent().parent().children('td').eq(2).html();
+        $.get("/Delding/" + html, function (data) {
+            if (data.s == 1) {
+                alert("删除订单成功");
+                $.get("/delShu/" + lei, function (data) {
+
+                })
+                window.location = "/order"
+            } else {
+                alert("服务器错误！");
+            }
+        })
+    })
+    //修改订单
+    $("#tbody").delegate(".xiugai", "click", function () {
+        var html = $(this).parent().parent().children('td').eq(6).html();
+        var lei = $(this).parent().parent().children('td').eq(2).html();
+        $.get("/updateding/" + html, function (data) {
+            // console.log(data)
+            $.each(data.s, function (i, n) {
+                $("input[name=ruzhu]").val(n.ruzhu);
+                $("input[name=lidian]").val(n.lidian);
+                $("input[name=leixing]").val(n.leixing);
+                $("input[name=fangjian]").val(n.fangjian);
+                LeiXing=n.leixing;
+                $("input[name=jiage]").val(n.jiage);
+                $("input[name=name]").val(n.name);
+                $("input[name=lianxiren]").val(n.lianxiren);
+                $("input[name=lianxiphone]").val(n.lianxiphone);
+                //渲染类
+                $.get("/roomLei", function (data) {
+                    $("#dv ul").html(' ')
+                    $.each(data.result, function (i, s) {
+                        $("<li></li>").html(s.mingcheng).appendTo($("#dv ul"))
+                    })
+                })
+                // 获取类 渲染房间
+                $("#dv").delegate("li","click",function () {
+                    var str = $(this).html();
+                    $("#fj").show()
+                    $("#fj ul").html(' ')
+                    $("input[name=leixing]").val(str);
+                    $.get("/overfangjian/"+str,function (data) {
+                        $.each(data.s, function (i, s) {
+                            $("<li></li>").html(s.fangjianhao).appendTo($("#fj ul"))
+                        })
+                    })
+                    $("input[name=fangjian]").val('请选择房间');
+                    $.get("/roomshu/" + str, function (data) {
+                        $("input[name=jiage]").val(data.s[0].jiage)
+                    })
+                })
+                // 获取房间
+                $("#fj").delegate("li","click",function () {
+                    $("input[name=fangjian]").val($(this).html());
+                })
+            })
+        })
+    })
+    // 确定修改
+    $("#buttontjok").click(function () {
+        var str=$("#xiugai").serialize();
+        var val=$('input[name=leixing]').val()
+        if ($('input[name=leixing]').val()==LeiXing) {
+            $.post("/xiugailei", str, function (data) {
+                if (data.s == 1) {
+                    alert('成功')
+                    window.location='/order'
+                }
+                if (data.s == -1) {
+                    alert("服务器错误")
+                }
+                if (data.s == -2) {
+                    alert("您已经定过房间")
+                    $('input[type=text]').val(' ')
+                }
+            })
+        }
+        else {
+            $.post("/xiugailei", str, function (data) {
+                if (data.s == 1) {
+                    alert('成功')
+                    $.get("/delShu/"+LeiXing,function (data) {
+
+                    })
+                    $.get("/leixingok/"+val,function (data) {
+
+                    })
+                    window.location = '/order'
+                }
+                if (data.s == -1) {
+                    alert("服务器错误")
+                }
+                if (data.s == -2) {
+                    alert("无联系人")
+                }
+            })
+        }
+    })
+</script>
+</body>
+</html>

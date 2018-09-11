@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <script src="../js/jquery-1.12.3.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <style>
+        p {
+            margin-left: 30px;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/mangae/index">汇豪国际酒店</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                      aria-haspopup="true"
+                                      aria-expanded="false">入住管理 <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li class="active"><a href="/mangae/shop">大堂入住</a></li>
+                        <li><a href="/mangae/clude">订单入住</a></li>
+                    </ul>
+                </li>
+                <li><a href="/mangae/outRoom">退房管理</a></li>
+                <li><a href="/mangae/about">入住查询</a></li>
+                <li><a href="/mangae/room">房间管理</a></li>
+                <li><a href="/mangae/roomClass">房类管理</a></li>
+                <li><a href="/mangae/tubiao">房间信息图表</a></li>
+
+                <li data-toggle="modal" data-target="#chuangjian"><a href="#">修改密码</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="div" style="margin: 60px auto;width: 70%">
+    <form action="">
+        <h3>顾客信息</h3>
+        <p>
+            姓名：<br>
+            <input type="text" name="lianxiren" class="form-control">
+        </p>
+        <p>
+            性别：<br>
+            <select name="xingbie" id="select3">
+                <option value="男">男</option>
+                <option value="女">女</option>
+            </select>
+        </p>
+        <p>
+            入住时间：
+            <br>
+            <input type="date" name="ruzhu" class="form-control">
+        </p>
+        <p>
+            离店时间：
+            <br>
+            <input type="date" name="lidian" class="form-control">
+        </p>
+        <p>
+            预订数量：
+            <br>
+            <input type="text" name="shuliang" class="form-control">
+        </p>
+        <p>
+            证件类型：<br>
+            <select name="zhengjian" id="select2">
+                <option value="身份证">身份证</option>
+                <option value="身份证">居住证</option>
+            </select>
+        </p>
+        <p>
+            证件号：<br>
+            <input type="text" name="zhengjianhao" class="form-control">
+        </p>
+        <p>
+            联系电话：
+            <br>
+            <input type="text" name="lianxiphone" class="form-control">
+        </p>
+        <p style="display: none;">
+            留言：
+            <br>
+            <textarea name="liuyan" id="" cols="146" rows="1">非常good</textarea>
+        </p>
+        <h3>房间信息</h3>
+        <p>
+            房间类型：<br>
+            <select name="leixing" id="selects">
+
+            </select>
+        </p>
+        <p>
+            房间号：<br>
+            <select name="fangjian" id="select4"></select>
+        </p>
+        <p>
+            房间剩余量：<br>
+            <input type="text" name="shengyu" class="form-control">
+        </p>
+        <p>
+            价格/天/元：<br>
+            <input type="text" name="jiage" class="form-control">
+        </p>
+        <p>
+            应付金额/元：
+            <br>
+            <input type="text" name="qian" class="form-control" readonly>
+        </p>
+        <p>
+            入住人姓名：
+            <br>
+            <input type="text" name="name" class="form-control" placeholder="多个入住人请用逗号隔开">
+        </p>
+        <p>
+            <button id="buttonrz" type="button" class="btn btn-primary btn-lg">
+                办理入住
+            </button>
+        </p>
+    </form>
+
+</div>
+
+<script>
+    $.get("/roomLei", function (data) {
+        $("#selects").html(' ')
+        $('<option value="请选择">请选择</option>').appendTo($("#select3"))
+        $.each(data.result, function (i, n) {
+            $('<option value=' + n.mingcheng + '>' + n.mingcheng + '</option>').appendTo($("#selects"))
+        })
+    })
+    $('#selects').click(function () {
+        var str = $(this).val();
+        $("#select4").html(' ')
+        if ($('input[name=ruzhu]').val() == '' || $('input[name=lidian]').val() == '') {
+            alert("请完善您的信息")
+        } else {
+            //房间 价格
+            $.get("/roomshu/" + str, function (data) {
+                $("input[name=shengyu]").val(data.s[0].shengyushuliang)
+                $("input[name=jiage]").val(data.s[0].jiage);
+                var sArr = $('input[name=ruzhu]').val().split("-");
+                var eArr = $('input[name=lidian]').val().split("-");
+                var sRDate = new Date(sArr[0], sArr[1], sArr[2]);
+                var eRDate = new Date(eArr[0], eArr[1], eArr[2]);
+                var days = Math.abs((sRDate - eRDate) / (24 * 60 * 60 * 1000));
+                $("input[name=qian]").val(days * data.s[0].jiage);
+            })
+            // 房间号
+            $.get("/roomHao/" + str, function (data) {
+                console.log(data)
+                if (data.s.length == 0) {
+                    alert("对不起暂无房间")
+                    $("input").val(' ')
+                }
+                $.each(data.s, function (i, n) {
+                    $('<option value=' + n.fangjianhao + '>' + n.fangjianhao + '</option>').appendTo($("#select4"))
+                })
+            })
+        }
+    })
+    //办理入住
+    $("#buttonrz").click(function () {
+        var str = $("form").serialize();
+        $.post("/addclude", str, function (data) {
+            if (data.s == 1) {
+                alert("办理入住成功")
+                var fangjian = $("#select4").val()
+                $.get("/fangjian/" + fangjian, function (data) {
+
+                })
+                $.post("/xiurommCass", {
+                    "lei": $("#selects").val(),
+                    "shuliang": $('input[name=shuliang]').val()
+                }, function (data) {
+                    if (data.s == 1) {
+                        window.location = '/mangae/shop'
+                        $('input[type=text]').val(' ')
+                    }
+                })
+            }
+            if (data.s == -1) {
+                alert("服务器错误")
+            }
+            if (data.s == -2) {
+                alert("房间已有客户")
+            }
+        })
+    })
+</script>
+</body>
+</html>
